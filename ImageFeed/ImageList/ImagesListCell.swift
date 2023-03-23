@@ -1,7 +1,7 @@
 import UIKit
 
 final class ImagesListCell: UITableViewCell {
-    static let reuseIdentifier = "ImagesListCell" // для работы с кастомной ячейкой нужен её идентификатор
+    static let reuseIdentifier = "ImagesListCell"
     @IBOutlet var cellImage: UIImageView!
     @IBOutlet var likeButton: UIButton!
     @IBOutlet var dateLabel: UILabel!
