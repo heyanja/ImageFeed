@@ -32,6 +32,5 @@ final class ImagesListCell: UITableViewCell {
         gradient.startPoint = CGPoint(x: 0.5, y: 0)
         gradient.endPoint = CGPoint(x: 0.5, y: 1)
         gradientImageView.layer.addSublayer(gradient)
-        
     }
 }

@@ -17,7 +17,6 @@ final class ProfileViewController: UIViewController {
         getLogoutButton()
     }
     
-    
     private func getAccountImage() {
         avatarImageView.image = UIImage(named: "avatar_image")
         
@@ -56,7 +55,6 @@ final class ProfileViewController: UIViewController {
         setDescriptionConstraints(label: descriptionLabel)
     }
     
-    
     private func getLogoutButton() {
         logoutButton.setImage(UIImage(named: "logout"), for: .normal)
         logoutButton.tintColor = .ypRed
@@ -65,8 +63,6 @@ final class ProfileViewController: UIViewController {
         view.addSubview(logoutButton)
         setLogoutButtonConstraints(button: logoutButton)
     }
-    
-    
     
     private func setImageConstraints(image:UIImageView) {
         NSLayoutConstraint.activate([
@@ -109,8 +105,5 @@ final class ProfileViewController: UIViewController {
             button.centerYAnchor.constraint(equalTo: avatarImageView.centerYAnchor)
         ])
     }
-    
-    
-
 }
 

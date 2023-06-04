@@ -8,6 +8,7 @@ final class SingleImageViewController: UIViewController {
             rescaleAndCenterImageInScroolView(image: image)
         }
     }
+    
     @IBOutlet private var scrollView: UIScrollView!
     @IBOutlet private var imageView: UIImageView!
     
