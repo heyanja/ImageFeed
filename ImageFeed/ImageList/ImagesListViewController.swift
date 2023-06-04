@@ -1,26 +1,34 @@
 import UIKit
 
-class ImagesListViewController: UIViewController {
+final class ImagesListViewController: UIViewController {
     @IBOutlet private var tableView: UITableView!
     
     private let photosName: [String] = Array(0..<20).map{ "\($0)" }
+    private let ShowSingleImageSegueIdentifier = "ShowSingleImage"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
-    //    tableView.register(ImagesListCell.self, forCellReuseIdentifier: ImagesListCell.reuseIdentifier) // оповестить таблицу о классе ячейки вот таким кодом
-    //    // Do any additional setup after loading the view.
     }
     
-    private lazy var dateFormatter: DateFormatter = { // !
-        let formatter = DateFormatter ()
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == ShowSingleImageSegueIdentifier {
+            let viewController = segue.destination as! SingleImageViewController
+            let indexPath = sender as! IndexPath
+            let image = UIImage(named: photosName[indexPath.row])
+            viewController.image = image
+        } else {
+            super.prepare(for: segue, sender: sender)
+        }
+    }
+    
+    private lazy var dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
         formatter.dateStyle = .long
         formatter.timeStyle = .none
         return formatter
     }()
 }
-
-    
 
 extension ImagesListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -28,21 +36,22 @@ extension ImagesListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ImagesListCell.reuseIdentifier, for: indexPath) // 1
+        let cell = tableView.dequeueReusableCell(withIdentifier: ImagesListCell.reuseIdentifier, for: indexPath)
         
-        guard let imageListCell = cell as? ImagesListCell else { // 2
+        guard let imageListCell = cell as? ImagesListCell
+        else {
             return UITableViewCell()
         }
         
-        configCell(for: imageListCell, with: indexPath) // 3 check
-         
-        return imageListCell // 4
+        configCell(for: imageListCell, with: indexPath)
+        return imageListCell
     }
 }
 
-extension ImagesListViewController { // !
+extension ImagesListViewController {
     func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
-        guard let image = UIImage(named: photosName[indexPath.row]) else {
+        guard let image = UIImage(named: photosName[indexPath.row])
+        else {
             return
         }
         
@@ -52,22 +61,17 @@ extension ImagesListViewController { // !
         let isLiked = indexPath.row % 2 == 0
         let likeImage = isLiked ? UIImage(named: "like_button_on") : UIImage(named: "like_button_off")
         cell.likeButton.setImage(likeImage, for: .normal)
-        
     }
-
 }
 
-//func configCell(for cell: ImagesListCell) { !!!
-
-
-
-
 extension ImagesListViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
-    { }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: ShowSingleImageSegueIdentifier, sender: indexPath)
+    }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        guard let image = UIImage(named: photosName[indexPath.row]) else {
+        guard let image = UIImage(named: photosName[indexPath.row])
+        else {
             return 0
         }
         let imageInsets = UIEdgeInsets(top: 4, left: 16, bottom: 4, right: 16)
@@ -77,7 +81,5 @@ extension ImagesListViewController: UITableViewDelegate {
         let cellHeight = image.size.height * scale + imageInsets.top + imageInsets.bottom
         return cellHeight
     }
-    
-    // действия, которые будут выполнены при тапе по ячейке таблицы. «Адрес» ячейки, который содержится в indexPath, передаётся в качестве аргумента. Пока оставьте реализацию метода пустой — он ещё пригодится нам в этом же проекте.
 }
 
