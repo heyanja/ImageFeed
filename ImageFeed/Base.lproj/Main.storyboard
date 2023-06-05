@@ -321,10 +321,10 @@
             </objects>
             <point key="canvasLocation" x="1119" y="-2388"/>
         </scene>
-        <!--Web View View Controller-->
+        <!--WebViewViewController-->
         <scene sceneID="rB5-Hm-eKt">
             <objects>
-                <viewController id="ddC-B0-kGH" customClass="WebViewViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="ddC-B0-kGH" userLabel="WebViewViewController" customClass="WebViewViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="UVO-1C-DNQ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -332,25 +332,45 @@
                             <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Atr-dY-42G">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <color key="backgroundColor" name="YP White"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="414" id="q1b-jI-hd4"/>
+                                </constraints>
                                 <wkWebViewConfiguration key="configuration">
                                     <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
                                     <wkPreferences key="preferences"/>
                                 </wkWebViewConfiguration>
                             </wkWebView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PXx-v4-mYg">
+                                <rect key="frame" x="0.0" y="48" width="64" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="6Yb-Aq-eKr"/>
+                                    <constraint firstAttribute="width" constant="64" id="rsF-KS-eE9"/>
+                                </constraints>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="nav_back_button"/>
+                                <connections>
+                                    <action selector="didTapBackButton:" destination="ddC-B0-kGH" eventType="touchUpInside" id="PJ0-JP-WgZ"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="SmZ-fH-a30"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="PXx-v4-mYg" firstAttribute="leading" secondItem="SmZ-fH-a30" secondAttribute="leading" id="Hpn-n9-51m"/>
                             <constraint firstAttribute="bottom" secondItem="Atr-dY-42G" secondAttribute="bottom" id="QLU-7U-92y"/>
                             <constraint firstItem="Atr-dY-42G" firstAttribute="leading" secondItem="UVO-1C-DNQ" secondAttribute="leading" id="V4r-a8-2gt"/>
                             <constraint firstItem="Atr-dY-42G" firstAttribute="top" secondItem="UVO-1C-DNQ" secondAttribute="top" id="XuB-Fy-Ib9"/>
+                            <constraint firstItem="PXx-v4-mYg" firstAttribute="top" secondItem="SmZ-fH-a30" secondAttribute="top" id="gdm-Ql-S4E"/>
                             <constraint firstAttribute="trailing" secondItem="Atr-dY-42G" secondAttribute="trailing" id="puG-5i-x7J"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="webView" destination="Atr-dY-42G" id="78C-JW-k0Q"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DTP-Vy-l2W" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2848" y="-2389"/>
+            <point key="canvasLocation" x="2847.826086956522" y="-2389.2857142857142"/>
         </scene>
     </scenes>
     <resources>
@@ -358,6 +378,7 @@
         <image name="auth_screen_logo" width="30" height="30"/>
         <image name="backward_button" width="9" height="16"/>
         <image name="like_button_on" width="29" height="26"/>
+        <image name="nav_back_button" width="9" height="16"/>
         <image name="share" width="50" height="50"/>
         <image name="tab_editorial_active" width="20" height="22"/>
         <image name="tab_profile_active" width="24" height="24"/>
