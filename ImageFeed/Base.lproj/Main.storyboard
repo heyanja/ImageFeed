@@ -340,6 +340,10 @@
                                     <wkPreferences key="preferences"/>
                                 </wkWebViewConfiguration>
                             </wkWebView>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Yyt-tG-hHl">
+                                <rect key="frame" x="0.0" y="88" width="414" height="4"/>
+                                <color key="progressTintColor" name="YP Black"/>
+                            </progressView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PXx-v4-mYg">
                                 <rect key="frame" x="0.0" y="48" width="64" height="44"/>
                                 <constraints>
@@ -356,8 +360,11 @@
                         <viewLayoutGuide key="safeArea" id="SmZ-fH-a30"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="Yyt-tG-hHl" firstAttribute="leading" secondItem="UVO-1C-DNQ" secondAttribute="leading" id="Dia-7b-1AW"/>
                             <constraint firstItem="PXx-v4-mYg" firstAttribute="leading" secondItem="SmZ-fH-a30" secondAttribute="leading" id="Hpn-n9-51m"/>
+                            <constraint firstItem="Yyt-tG-hHl" firstAttribute="trailing" secondItem="UVO-1C-DNQ" secondAttribute="trailing" id="Mad-kO-IS3"/>
                             <constraint firstAttribute="bottom" secondItem="Atr-dY-42G" secondAttribute="bottom" id="QLU-7U-92y"/>
+                            <constraint firstItem="Yyt-tG-hHl" firstAttribute="top" secondItem="SmZ-fH-a30" secondAttribute="top" constant="40" id="UAf-Xg-zjR"/>
                             <constraint firstItem="Atr-dY-42G" firstAttribute="leading" secondItem="UVO-1C-DNQ" secondAttribute="leading" id="V4r-a8-2gt"/>
                             <constraint firstItem="Atr-dY-42G" firstAttribute="top" secondItem="UVO-1C-DNQ" secondAttribute="top" id="XuB-Fy-Ib9"/>
                             <constraint firstItem="PXx-v4-mYg" firstAttribute="top" secondItem="SmZ-fH-a30" secondAttribute="top" id="gdm-Ql-S4E"/>
@@ -365,6 +372,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="progressView" destination="Yyt-tG-hHl" id="oTc-qE-1yC"/>
                         <outlet property="webView" destination="Atr-dY-42G" id="78C-JW-k0Q"/>
                     </connections>
                 </viewController>
