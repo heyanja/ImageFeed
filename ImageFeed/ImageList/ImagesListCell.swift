@@ -26,7 +26,7 @@ final class ImagesListCell: UITableViewCell {
         let colorBottom = UIColor.ypBlack.withAlphaComponent(0.2).cgColor
         
         let gradient = CAGradientLayer()
-        gradient.frame = CGRect(x:0, y:0, width: width, height: height)
+        gradient.frame = CGRect(x: 0, y: 0, width: width, height: height)
         gradient.colors = [colorTop, colorBottom]
         gradient.locations = [0, 1]
         gradient.startPoint = CGPoint(x: 0.5, y: 0)
