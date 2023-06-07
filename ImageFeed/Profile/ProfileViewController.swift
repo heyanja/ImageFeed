@@ -56,7 +56,7 @@ final class ProfileViewController: UIViewController {
     }
     
     private func getLogoutButton() {
-        logoutButton.setImage(UIImage(named: "logout"), for: .normal)
+        logoutButton.setImage(UIImage(named: "logout_icon"), for: .normal)
         logoutButton.tintColor = .ypRed
         
         logoutButton.translatesAutoresizingMaskIntoConstraints = false
