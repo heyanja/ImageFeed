@@ -1,8 +1,12 @@
 import Foundation
 
 final class OAuth2Service: OAuth2ServiceProtocol {
+    func fetchAuthToken(code: String, handler: @escaping (Result<String, Error>) -> Void) { ////?
+        <#code#>
+    }
     
-    func fetchAuthToken(code: String, handler: @escaping (Result<String, Error>) -> Void) {
+    
+    func fetchOAuthToken(code: String, handler: @escaping (Result<String, Error>) -> Void) {
         guard var urlComponents = URLComponents(string: Constants.urlToFetchAuthToken) else { return }
         urlComponents.queryItems = [
             URLQueryItem(name: Parameters.client_id, value: Constants.accessKey),

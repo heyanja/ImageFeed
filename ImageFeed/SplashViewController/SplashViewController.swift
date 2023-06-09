@@ -1,10 +1,11 @@
 import UIKit
+import ProgressHUD
 
 final class SplashViewController: UIViewController {
     private let showAuthenticationScreenSegueIdentifier = "ShowAuthenticationScreen"
     
     private let imageListViewController = ImagesListViewController()
-    private let oAuthService = OAuth2Service()
+    private let oauth2Service = OAuth2Service()
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -23,30 +24,8 @@ final class SplashViewController: UIViewController {
         
         window.rootViewController = tabBarController
     }
-    
-    private func fetchOAuthToken(code: String) {
-        oAuthService.fetchAuthToken(code: code) { [weak self] result in
-            guard let self = self else { return }
-            DispatchQueue.main.async {
-                switch result {
-                case .success:
-                    self.switchToTabBarController()
-                case .failure(let error):
-                    print("Ошибка получения bearer token \(error)")
-                }
-            }
-        }
-    }
 }
 
-extension SplashViewController: AuthViewControllerDelegate {
-    func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
-        dismiss(animated: true) { [weak self] in
-            guard let self = self else { return }
-            self.fetchOAuthToken(code: code)
-        }
-    }
-}
 
 extension SplashViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -61,3 +40,29 @@ extension SplashViewController {
         }
     }
 }
+
+extension SplashViewController: AuthViewControllerDelegate {
+    func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
+        ProgressHUD.show()
+        dismiss(animated: true) { [weak self] in
+            guard let self = self else { return }
+            self.fetchOAuthToken(code)
+        }
+    }
+    
+    private func fetchOAuthToken(_ code: String) {
+        oauth2Service.fetchOAuthToken(code) { [weak self]
+            result in
+            guard let self = self else { return }
+            switch result {
+            case .success:
+                self.switchToTabBarController()
+                ProgressHUD.dismiss()
+            case .failure:
+                ProgressHUD.dismiss()
+                // TODO: Показать ошибку
+            }
+        }
+    }
+}
+
