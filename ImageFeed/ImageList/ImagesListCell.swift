@@ -1,21 +1,65 @@
 import UIKit
+import SnapKit
 
 final class ImagesListCell: UITableViewCell {
     
-    @IBOutlet var cellImage: UIImageView!
-    @IBOutlet var likeButton: UIButton!
-    @IBOutlet var dateLabel: UILabel!
-    @IBOutlet private var gradientImageView: UIImageView!
+    lazy var cellImage: UIImageView = {
+        let element = UIImageView()
+        element.contentMode = .scaleAspectFill
+        element.layer.cornerRadius = 16
+        element.layer.masksToBounds = true
+        return element
+    }()
     
-    static let reuseIdentifier = "ImagesListCell"
+    lazy var dateLabel: UILabel = {
+        let element = UILabel()
+        element.textColor = .ypWhite
+        element.font = UIFont.systemFont(ofSize: 13)
+        return element
+    }()
     
+    lazy var likeButton: UIButton = {
+        let element = UIButton(type: .custom)
+        element.setImage(UIImage(named: "No Active"), for: .normal)
+        return element
+    }()
+    
+    lazy var gradientImageView: UIImageView = {
+        let element = UIImageView()
+        return element
+    }()
+
     override func layoutSubviews() {
         gradientImageView.layer.sublayers = nil
+        contentView.addSubview(cellImage)
+        contentView.addSubview(gradientImageView)
+        contentView.addSubview(dateLabel)
+        contentView.addSubview(likeButton)
+        addConstraints()
         setupGradient()
+        
     }
     
-    override func prepareForReuse() {
-        gradientImageView.layer.sublayers = nil
+    func addConstraints() {
+        cellImage.snp.makeConstraints { make in
+            make.top.bottom.equalTo(contentView).inset(4)
+            make.trailing.leading.equalTo(contentView).inset(16)
+        }
+
+        likeButton.snp.makeConstraints { make in
+            make.top.equalTo(cellImage).inset(12)
+            make.trailing.equalTo(cellImage).inset(10.5)
+        }
+
+        dateLabel.snp.makeConstraints { make in
+            make.leading.bottom.trailing.equalTo(cellImage).inset(8)
+            make.trailing.greaterThanOrEqualTo(cellImage)
+        }
+
+        gradientImageView.snp.makeConstraints { make in
+            make.height.equalTo(30)
+            make.bottom.trailing.leading.equalTo(cellImage)
+        }
     }
     
     func setupGradient() {

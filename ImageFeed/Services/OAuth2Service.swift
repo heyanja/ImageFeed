@@ -6,7 +6,7 @@ final class OAuth2Service: OAuth2ServiceProtocol {
     private var task: URLSessionTask?
     private var lastCode: String?
     
-    func fetchOAuthToken(code: String, completion: @escaping (Result<String, Error>) -> Void) {
+    func fetchAuthToken(code: String, completion: @escaping (Result<String, Error>) -> Void) {
         
         assert(Thread.isMainThread)
         if lastCode == code { return }
@@ -44,3 +44,4 @@ final class OAuth2Service: OAuth2ServiceProtocol {
         task.resume()
     }
 }
+

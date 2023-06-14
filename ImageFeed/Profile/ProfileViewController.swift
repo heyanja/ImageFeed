@@ -15,7 +15,7 @@ final class ProfileViewController: UIViewController {
     
     private lazy var avatarImage: UIImageView = {
         let element = UIImageView()
-        element.image = UIImage(named: "avatar_image")
+        element.image = UIImage(named: "avatar_icon")
         element.layer.cornerRadius = 35
         element.layer.masksToBounds = true
         return element
@@ -57,7 +57,6 @@ final class ProfileViewController: UIViewController {
         view.backgroundColor = .ypBlack
         addViews()
         addConstraints()
-        
         profileImageObserver()
         profileInfoObserver()
     }
