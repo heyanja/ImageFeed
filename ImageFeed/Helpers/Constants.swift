@@ -5,7 +5,7 @@ struct Constants {
     static let secretKey = "oGMX76ng8RNuzJoPxDX0vPGf7Ugnoyzj6s66SFAQkU4"
     static let redirectURI = "urn:ietf:wg:oauth:2.0:oob"
     static let accessScope = "public+read_user+write_likes"
-    static let defaultBaseUrl = URL(string: "https://api.unsplash.com")!
+    static let defaultBaseUrl = URL(string: "https://api.unsplash.com")
     static let authorizeURl = "https://unsplash.com/oauth/authorize"
     static let urlPathToAuthorize = "/oauth/authorize/native"
     static let urlToFetchAuthToken = "https://unsplash.com/oauth/token"

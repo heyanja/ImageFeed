@@ -2,7 +2,17 @@ import Foundation
 
 final class OAuth2Service: OAuth2ServiceProtocol {
     
-    func fetchAuthToken(code: String, handler: @escaping (Result<String, Error>) -> Void) {
+    private let urlSession = URLSession.shared
+    private var task: URLSessionTask?
+    private var lastCode: String?
+    
+    func fetchAuthToken(code: String, completion: @escaping (Result<String, Error>) -> Void) {
+        
+        assert(Thread.isMainThread)
+        if lastCode == code { return }
+        task?.cancel()
+        lastCode = code
+        
         guard var urlComponents = URLComponents(string: Constants.urlToFetchAuthToken) else { return }
         urlComponents.queryItems = [
             URLQueryItem(name: Parameters.client_id, value: Constants.accessKey),
@@ -17,29 +27,21 @@ final class OAuth2Service: OAuth2ServiceProtocol {
         
         request.httpMethod = "POST"
         
-        let task = URLSession.shared.dataTask(with: request) { data, responce, error in
-            if let data = data,
-               let responce = responce,
-               let statusCode = (responce as? HTTPURLResponse)?.statusCode {
-                if 200..<300 ~= statusCode {
-                    if let json = try? JSONDecoder().decode(OAuthTokenResponseBody.self, from: data) {
-                        DispatchQueue.main.async {
-                            OAuth2TokenStorage().token = json.accessToken
-                            handler(.success(json.accessToken))
-                        }
-                    }
-                } else {
-                    DispatchQueue.main.async {
-                        handler(.failure(NetworkError.httpStatusCode(statusCode)))
-                    }
-                }
-            } else {
-                DispatchQueue.main.async {
-                    guard let error = error else { return }
-                    handler(.failure(NetworkError.urlRequestError(error)))
-                }
+        let task = urlSession.objectTask(for: request) { [weak self] (result: Result<OAuthTokenResponseBody, Error>) in
+            guard let self = self else { return }
+            switch result {
+            case .success(let body):
+                guard let authToken = body.accessToken else { return }
+                OAuth2TokenStorage().token = authToken
+                self.task = nil
+                completion(.success(authToken))
+            case .failure(let error):
+                self.lastCode = nil
+                completion(.failure(error))
             }
         }
+        self.task = task
         task.resume()
     }
 }
+
