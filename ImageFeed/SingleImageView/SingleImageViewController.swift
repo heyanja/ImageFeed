@@ -19,14 +19,14 @@ final class SingleImageViewController: UIViewController {
     
     private lazy var backButton: UIButton = {
         let element = UIButton(type: .custom)
-        element.setImage(Resourses.Images.backButtonWhite, for: .normal)
+        element.setImage(Resources.Images.backButtonWhite, for: .normal)
         element.addTarget(self, action: #selector(backToFeed), for: .touchUpInside)
         return element
     }()
     
     private lazy var shareButton: UIButton = {
         let element = UIButton(type: .custom)
-        element.setImage(Resourses.Images.shareImage, for: .normal)
+        element.setImage(Resources.Images.shareImage, for: .normal)
         element.addTarget(self, action: #selector(share), for: .touchUpInside)
         return element
     }()

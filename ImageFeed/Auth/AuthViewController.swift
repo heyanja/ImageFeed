@@ -7,7 +7,7 @@ final class AuthViewController: UIViewController {
     
     private lazy var authImage: UIImageView = {
         let element = UIImageView()
-        element.image = Resourses.Images.authScreenLogo
+        element.image = Resources.Images.authScreenLogo
         return element
     }()
     

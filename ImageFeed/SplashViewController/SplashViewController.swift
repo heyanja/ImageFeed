@@ -17,7 +17,7 @@ final class SplashViewController: UIViewController {
     
     private lazy var logoImage: UIImageView = {
         let element = UIImageView()
-        element.image = Resourses.Images.launch
+        element.image = Resources.Images.launch
         return element
     }()
     

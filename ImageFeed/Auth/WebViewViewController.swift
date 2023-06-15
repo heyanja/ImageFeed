@@ -15,7 +15,7 @@ final class WebViewViewController: UIViewController {
     
     private lazy var backButton: UIButton = {
         let element = UIButton(type: .system)
-        element.setImage(Resourses.Images.backButtonBlack, for: .normal)
+        element.setImage(Resources.Images.backButtonBlack, for: .normal)
         element.tintColor = .ypBlack
         element.addTarget(self, action: #selector(backButtonAction), for: .touchUpInside)
         return element

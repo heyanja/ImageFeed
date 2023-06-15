@@ -23,7 +23,7 @@ final class ImagesListCell: UITableViewCell {
     
     lazy var likeButton: UIButton = {
         let element = UIButton(type: .custom)
-        element.setImage(Resourses.Images.noActiveLike, for: .normal)
+        element.setImage(Resources.Images.noActiveLike, for: .normal)
         element.addTarget(self, action: #selector(likeButtonClicked), for: .touchUpInside)
         return element
     }()
@@ -95,7 +95,7 @@ final class ImagesListCell: UITableViewCell {
 
 extension ImagesListCell {
     func setLiked(_ likedByUser: Bool) {
-        let likeImage = likedByUser ? Resourses.Images.activeLike : Resourses.Images.noActiveLike
+        let likeImage = likedByUser ? Resources.Images.activeLike : Resources.Images.noActiveLike
         if likedByUser == true {
             likeButton.setImage(likeImage, for: .normal)
         } else if likedByUser == false {

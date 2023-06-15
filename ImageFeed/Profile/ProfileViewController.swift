@@ -15,7 +15,7 @@ final class ProfileViewController: UIViewController {
     
     private lazy var avatarImage: UIImageView = {
         let element = UIImageView()
-        element.image = Resourses.Images.avatarImage
+        element.image = Resources.Images.avatarImage
         element.layer.cornerRadius = 35
         element.layer.masksToBounds = true
         return element
@@ -47,7 +47,7 @@ final class ProfileViewController: UIViewController {
     
     private lazy var logoutButton: UIButton = {
         let element = UIButton(type: .custom)
-        element.setImage(Resourses.Images.logout, for: .normal)
+        element.setImage(Resources.Images.logout, for: .normal)
         element.addTarget(self, action: #selector(logout), for: .touchUpInside)
         return element
     }()
@@ -64,7 +64,7 @@ final class ProfileViewController: UIViewController {
     private func updateAvatar() {
         guard let profileImageURL = profileImageService.avatarURL,
               let url = URL(string: profileImageURL) else { return }
-        avatarImage.kf.setImage(with: url, placeholder: Resourses.Images.avatarPlaceHolder)
+        avatarImage.kf.setImage(with: url, placeholder: Resources.Images.avatarPlaceHolder)
     }
     
     private func profileImageObserver() {

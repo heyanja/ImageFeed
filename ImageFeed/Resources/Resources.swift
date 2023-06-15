@@ -1,6 +1,6 @@
 import UIKit
 
-enum Resourсes {
+enum Resources {
     enum Images {
         static let avatarImage = UIImage(named: "avatar_icon")
         static let avatarPlaceHolder = UIImage(named: "avatarPlaceHolder")
