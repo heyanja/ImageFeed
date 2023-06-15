@@ -1,13 +1,13 @@
 import UIKit
 
-final class ProfileService {
+final class ProfileService: ProfileServiceProtocol {
     
     static let shared = ProfileService()
     
     private let urlSession = URLSession.shared
     private var task: URLSessionTask?
     private(set) var profile: Profile?
-    private let profileImageService = ProfileImageService.shared
+    
     
     func fetchProfile(_ token: String, completion: @escaping (Result<Profile, Error>) -> Void) {
         

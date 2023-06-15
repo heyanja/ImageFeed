@@ -8,18 +8,11 @@ final class SplashViewController: UIViewController {
     
     var isFirst = true
     private var username: String?
+    private let splashView = SplashView()
     private let imageListViewController = ImagesListViewController()
     private let oAuthService = OAuth2Service()
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
-    private let imagesListService = ImagesListService.shared
-    private var photosObserver: NSObjectProtocol?
-    
-    private lazy var logoImage: UIImageView = {
-        let element = UIImageView()
-        element.image = Resources.Images.launch
-        return element
-    }()
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -100,7 +93,6 @@ final class SplashViewController: UIViewController {
         }
     }
     
-    
     private func showAlert() {
         let alert = UIAlertController(title: "Что-то пошло не так(",
                                       message: "Не удалось войти в систему",
@@ -116,8 +108,8 @@ final class SplashViewController: UIViewController {
 extension SplashViewController {
     private func setupSplashView() {
         view.backgroundColor = .ypBlack
-        view.addSubview(logoImage)
-        logoImage.snp.makeConstraints { make in
+        view.addSubview(splashView.logoImage)
+        splashView.logoImage.snp.makeConstraints { make in
             make.center.equalToSuperview()
         }
     }
@@ -132,4 +124,3 @@ extension SplashViewController: AuthViewControllerDelegate {
         }
     }
 }
-

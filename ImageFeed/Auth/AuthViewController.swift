@@ -11,7 +11,7 @@ final class AuthViewController: UIViewController {
         return element
     }()
     
-    private lazy var sighInButton: UIButton = {
+    lazy var sighInButton: UIButton = {
         let element = UIButton(type: .system)
         element.backgroundColor = .ypWhite
         element.setTitle("Войти", for: .normal)
@@ -19,7 +19,7 @@ final class AuthViewController: UIViewController {
         element.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
         element.layer.cornerRadius = 16
         element.layer.masksToBounds = true
-        element.addTarget(self, action: #selector(moveToWebView), for: .touchUpInside)
+        element.accessibilityIdentifier = "Authenticate"
         return element
     }()
     
@@ -31,8 +31,12 @@ final class AuthViewController: UIViewController {
     
     @objc private func moveToWebView() {
         let webViewController = WebViewViewController()
-        webViewController.modalPresentationStyle = .fullScreen
+        let authHelper = AuthHelper()
+        let webViewPresenter = WebViewPresenter(authHelper: authHelper)
+        webViewController.presenter = webViewPresenter
+        webViewPresenter.view = webViewController
         webViewController.delegate = self
+        webViewController.modalPresentationStyle = .fullScreen
         present(webViewController, animated: true)
     }
 }
@@ -51,6 +55,7 @@ extension AuthViewController {
     private func addViews() {
         view.addSubview(authImage)
         view.addSubview(sighInButton)
+        sighInButton.addTarget(self, action: #selector(moveToWebView), for: .touchUpInside)
         addConstraints()
     }
     
