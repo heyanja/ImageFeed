@@ -1,4 +1,3 @@
-
 import UIKit
 @testable import ImageFeed
 
@@ -36,3 +35,4 @@ final class ImagesListViewPresenterSpy: ImagesListPresenterProtocol {
         photos.append(photo)
     }
 }
+
