@@ -16,4 +16,8 @@ final class OAuth2TokenStorage {
             keychainWrapper.set(newValue!, forKey: Keys.bearerToken.rawValue)
         }
     }
+    
+    func deleteToken() {
+        keychainWrapper.removeObject(forKey: Keys.bearerToken.rawValue)
+    }
 }

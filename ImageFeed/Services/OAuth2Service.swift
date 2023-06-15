@@ -44,4 +44,3 @@ final class OAuth2Service: OAuth2ServiceProtocol {
         task.resume()
     }
 }
-

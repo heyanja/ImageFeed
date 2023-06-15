@@ -1,4 +1,3 @@
-
 import UIKit
 
 final class TabBarController: UITabBarController {
@@ -7,23 +6,23 @@ final class TabBarController: UITabBarController {
         super.viewDidLoad()
         setupTabBar()
     }
-
+    
     private func setupTabBar() {
         let imagesListViewController = ImagesListViewController()
         let profileViewController = ProfileViewController()
-
+        
         profileViewController.tabBarItem = UITabBarItem(
             title: nil,
-            image: UIImage(named: "tab_profile_active"),
+            image: Resourses.Images.tabBarItemProfile,
             selectedImage: nil)
-
+        
         imagesListViewController.tabBarItem = UITabBarItem(
             title: nil,
-            image: UIImage(named: "tab_editorial_active"),
+            image: Resourses.Images.tabBarItemFeed,
             selectedImage: nil)
-
+        
         self.viewControllers = [imagesListViewController, profileViewController]
-
+        
         let appearance = UITabBarAppearance()
         appearance.backgroundColor = .ypBlack
         self.tabBar.standardAppearance = appearance
