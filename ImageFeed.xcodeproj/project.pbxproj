@@ -76,6 +76,8 @@
 		93CFA7EB2A3BB49600506138 /* ProfileViewControllerSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93CFA7EA2A3BB49600506138 /* ProfileViewControllerSpy.swift */; };
 		93CFA7ED2A3BB4BA00506138 /* ProfileViewPresenterSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93CFA7EC2A3BB4BA00506138 /* ProfileViewPresenterSpy.swift */; };
 		93CFA7F02A3BB4F900506138 /* ProfileImageServiceStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93CFA7EF2A3BB4F900506138 /* ProfileImageServiceStub.swift */; };
+		93CFA7F22A3BB6C100506138 /* ProfileImageServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93CFA7F12A3BB6C100506138 /* ProfileImageServiceProtocol.swift */; };
+		93CFA7F42A3BB70E00506138 /* ProfileServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93CFA7F32A3BB70E00506138 /* ProfileServiceProtocol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -189,6 +191,8 @@
 		93CFA7EA2A3BB49600506138 /* ProfileViewControllerSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewControllerSpy.swift; sourceTree = "<group>"; };
 		93CFA7EC2A3BB4BA00506138 /* ProfileViewPresenterSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewPresenterSpy.swift; sourceTree = "<group>"; };
 		93CFA7EF2A3BB4F900506138 /* ProfileImageServiceStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageServiceStub.swift; sourceTree = "<group>"; };
+		93CFA7F12A3BB6C100506138 /* ProfileImageServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageServiceProtocol.swift; sourceTree = "<group>"; };
+		93CFA7F32A3BB70E00506138 /* ProfileServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileServiceProtocol.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -284,6 +288,7 @@
 				933FA5482A38D17300376D7D /* ProfileService.swift */,
 				933FA54A2A38D33C00376D7D /* ProfileImageService.swift */,
 				933FA5672A3A1A7F00376D7D /* ImageListService.swift */,
+				93CFA7B72A3BAB6200506138 /* ImagesListServiceProtocol.swift */,
 				93CFA7B62A3BAB2900506138 /* ProfileServiceProtocols */,
 			);
 			path = Services;
@@ -467,7 +472,8 @@
 		93CFA7B62A3BAB2900506138 /* ProfileServiceProtocols */ = {
 			isa = PBXGroup;
 			children = (
-				93CFA7B72A3BAB6200506138 /* ImagesListServiceProtocol.swift */,
+				93CFA7F12A3BB6C100506138 /* ProfileImageServiceProtocol.swift */,
+				93CFA7F32A3BB70E00506138 /* ProfileServiceProtocol.swift */,
 			);
 			path = ProfileServiceProtocols;
 			sourceTree = "<group>";
@@ -760,6 +766,7 @@
 				93175B592A2FDC4900C8B635 /* SplashViewController.swift in Sources */,
 				933FA5562A392CD600376D7D /* TabBarController.swift in Sources */,
 				933FA5682A3A1A7F00376D7D /* ImageListService.swift in Sources */,
+				93CFA7F42A3BB70E00506138 /* ProfileServiceProtocol.swift in Sources */,
 				933FA55D2A39380700376D7D /* ProfileResult.swift in Sources */,
 				93CFA7BC2A3BADE900506138 /* ProfileViewPresenter.swift in Sources */,
 				93CFA7BA2A3BAD1100506138 /* ProfileView.swift in Sources */,
@@ -784,6 +791,7 @@
 				936FA94729C284B300DC9705 /* ImagesListCell.swift in Sources */,
 				933FA57B2A3A9EE200376D7D /* Resources.swift in Sources */,
 				93311D5429A551C000168151 /* SceneDelegate.swift in Sources */,
+				93CFA7F22A3BB6C100506138 /* ProfileImageServiceProtocol.swift in Sources */,
 				933FA5782A3A991600376D7D /* Array+Extensions.swift in Sources */,
 				93175B4F2A2FDB2200C8B635 /* OAuthTokenResponseBody.swift in Sources */,
 				933FA56C2A3A78D800376D7D /* Photo.swift in Sources */,
