@@ -72,7 +72,7 @@ final class ImagesListViewController: UIViewController, ImagesListViewController
               let isLiked = presenter?.photos[indexPath.row].isLiked else { return }
         cell.dateLabel.text = dateToStringFormatter(date: date)
         cell.delegate = self
-        let likeImage = isLiked ? Resourses.Images.activeLike : Resourses.Images.noActiveLike
+        let likeImage = isLiked ? Resources.Images.activeLike : Resources.Images.noActiveLike
         cell.likeButton.setImage(likeImage, for: .normal)
     }
 }
@@ -112,7 +112,7 @@ extension ImagesListViewController: UITableViewDataSource {
         
         guard let photoURL = presenter?.photos[indexPath.row].thumbImageURL else { return UITableViewCell() }
         if let url = URL(string: photoURL) {
-            imageListCell.cellImage.kf.setImage(with: url, placeholder: Resourses.Images.imagesPlaceHolder) { _ in
+            imageListCell.cellImage.kf.setImage(with: url, placeholder: Resources.Images.imagesPlaceHolder) { _ in
                 imageListCell.cellImage.kf.indicatorType = .activity
                 tableView.reloadRows(at: [indexPath], with: .automatic)
             }

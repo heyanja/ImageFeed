@@ -22,12 +22,12 @@ final class TabBarController: UITabBarController {
 
         profileViewController.tabBarItem = UITabBarItem(
             title: nil,
-            image: Resourses.Images.tabBarItemProfile,
+            image: Resources.Images.tabBarItemProfile,
             selectedImage: nil)
 
         imagesListViewController.tabBarItem = UITabBarItem(
             title: nil,
-            image: Resourses.Images.tabBarItemFeed,
+            image: Resources.Images.tabBarItemFeed,
             selectedImage: nil)
 
         self.viewControllers = [imagesListViewController, profileViewController]

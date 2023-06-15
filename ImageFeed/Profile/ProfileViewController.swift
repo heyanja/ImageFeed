@@ -20,7 +20,7 @@ final class ProfileViewController: UIViewController, ProfileViewControllerProtoc
     func updateAvatar() {
         guard let profileImageURL = profileImageService.avatarURL,
               let url = URL(string: profileImageURL) else { return }
-        profileView.avatarImage.kf.setImage(with: url, placeholder: Resourses.Images.avatarPlaceHolder)
+        profileView.avatarImage.kf.setImage(with: url, placeholder: Resources.Images.avatarPlaceHolder)
     }
     
     func updateProfileDetails(profile: Profile?) {
