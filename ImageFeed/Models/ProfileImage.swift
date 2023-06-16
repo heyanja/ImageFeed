@@ -1,21 +1,17 @@
 import Foundation
 
 struct ProfileImage: Codable {
-    let profile_image: ImageSizes
+    let profileImage: ImageSizes
     
     private enum CodingKeys: String, CodingKey {
-        case profile_image = "profile_image"
+        case profileImage = "profile_image"
     }
 }
 
 struct ImageSizes: Codable {
     let small: String
-    let medium: String
-    let large: String
-    
+
     private enum CodingKeys: String, CodingKey {
         case small = "small"
-        case medium = "medium"
-        case large = "large"
     }
 }

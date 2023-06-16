@@ -1,15 +1,14 @@
 import UIKit
+import SnapKit
 import Kingfisher
 import ProgressHUD
 
-final class ImagesListViewController: UIViewController {
+final class ImagesListViewController: UIViewController, ImagesListViewControllerProtocol {
     
-    private let imagesListService = ImagesListService.shared
+    var presenter: ImagesListPresenterProtocol?
     private var photosServiceObserver: NSObjectProtocol?
     
-    private var photos: [Photo] = []
-    
-    private lazy var tableView: UITableView! = {
+    private lazy var tableView: UITableView = {
         let element = UITableView()
         element.backgroundColor = .ypBlack
         element.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
@@ -24,13 +23,13 @@ final class ImagesListViewController: UIViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
-        photosObserver()
+        presenter?.photosObserver()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        imagesListService.fetchPhotosNextPage()
-        updateTableViewAnimated()
+        presenter?.imagesListService?.fetchPhotosNextPage()
+        presenter?.updateTableView()
     }
     
     private func addConstraints() {
@@ -39,35 +38,40 @@ final class ImagesListViewController: UIViewController {
         }
     }
     
-    private func photosObserver() {
-        photosServiceObserver = NotificationCenter.default.addObserver(
-            forName: ImagesListService.didChangeNotification,
-            object: nil,
-            queue: .main) { [weak self] _ in
-                guard let self = self else { return }
-                self.updateTableViewAnimated()
+    private func requestFullSizeImage(viewController: SingleImageViewController, url: URL) {
+        UIBlockingProgressHUD.show()
+        viewController.singleImageView.kf.setImage(
+            with: url) { result in
+                DispatchQueue.main.async {
+                    switch result {
+                    case .success(let imageResult):
+                        UIBlockingProgressHUD.dismiss()
+                        viewController.rescaleAndCenterImageInScrollView(image: imageResult.image)
+                    case .failure(_:):
+                        UIBlockingProgressHUD.dismiss()
+                        viewController.showErrorAlert()
+                    }
+                }
             }
     }
     
-    private func switchToSingleViewController(sender: Any?) {
+    func switchToSingleViewController(sender: Any?) {
         let singleImageViewController = SingleImageViewController()
-        guard let indexPath = sender as? IndexPath else { return }
-        
-        let photoURL = photos[indexPath.row].largeImageURL
+        guard let indexPath = sender as? IndexPath,
+              let photoURL = presenter?.photos[indexPath.row].largeImageURL else { return }
+
         if let url = URL(string: photoURL) {
-            singleImageViewController.imageUrl = url
-            singleImageViewController.singleImageView.kf.indicatorType = .activity
+            requestFullSizeImage(viewController: singleImageViewController, url: url)
         }
-        singleImageViewController.singleImageView.kf.indicatorType = .none
         singleImageViewController.modalPresentationStyle = .fullScreen
         present(singleImageViewController, animated: true)
     }
     
     func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
-        guard let date = photos[indexPath.row].createdAt else { return }
+        guard let date = presenter?.photos[indexPath.row].createdAt,
+              let isLiked = presenter?.photos[indexPath.row].isLiked else { return }
         cell.dateLabel.text = dateToStringFormatter(date: date)
         cell.delegate = self
-        let isLiked = photos[indexPath.row].isLiked
         let likeImage = isLiked ? Resources.Images.activeLike : Resources.Images.noActiveLike
         cell.likeButton.setImage(likeImage, for: .normal)
     }
@@ -79,7 +83,8 @@ extension ImagesListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let image = photos[indexPath.row]
+        guard let presenter = presenter else { return 100 }
+        let image = presenter.photos[indexPath.row]
         
         let imageInsets = UIEdgeInsets(top: 4, left: 16, bottom: 4, right: 16)
         let imageViewWidth = tableView.bounds.width - imageInsets.left - imageInsets.right
@@ -93,7 +98,8 @@ extension ImagesListViewController: UITableViewDelegate {
 
 extension ImagesListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return photos.count
+        guard let photos = presenter?.photos.count else { return 0 }
+        return photos
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -104,7 +110,7 @@ extension ImagesListViewController: UITableViewDataSource {
         }
         imageListCell.delegate = self
         
-        let photoURL = photos[indexPath.row].thumbImageURL
+        guard let photoURL = presenter?.photos[indexPath.row].thumbImageURL else { return UITableViewCell() }
         if let url = URL(string: photoURL) {
             imageListCell.cellImage.kf.setImage(with: url, placeholder: Resources.Images.imagesPlaceHolder) { _ in
                 imageListCell.cellImage.kf.indicatorType = .activity
@@ -116,43 +122,44 @@ extension ImagesListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.row + 1 == photos.count {
-            imagesListService.fetchPhotosNextPage()
+        if indexPath.row + 1 == presenter?.photos.count {
+            UIBlockingProgressHUD.show()
+            presenter?.imagesListService?.fetchPhotosNextPage()
         }
     }
 }
 
 extension ImagesListViewController {
-    private func updateTableViewAnimated() {
-        let oldCount = photos.count
-        let newCount = imagesListService.photos.count
-        photos = imagesListService.photos
-        if oldCount != newCount {
-            tableView.performBatchUpdates {
-                let indexPaths = (oldCount..<newCount).map { i in
-                    IndexPath(row: i, section: 0)
-                }
-                tableView.insertRows(at: indexPaths, with: .automatic)
-            } completion: { _ in }
-        }
+    func updateTableViewAnimated(oldCount: Int, newCount: Int) {
+        tableView.performBatchUpdates {
+            let indexPaths = (oldCount..<newCount).map { i in
+                IndexPath(row: i, section: 0)
+            }
+            tableView.insertRows(at: indexPaths, with: .automatic)
+        } completion: { _ in }
     }
 }
 
 extension ImagesListViewController: ImagesListCellDelegate {
     func imageListCellDidTapLike(_ cell: ImagesListCell) {
-        guard let indexPath = tableView.indexPath(for: cell) else { return }
-        let photo = photos[indexPath.row]
+        guard let indexPath = tableView.indexPath(for: cell),
+              let presenter = presenter else { return }
+        let photo = presenter.photos[indexPath.row]
         UIBlockingProgressHUD.show()
-        imagesListService.changeLike(photoId: photo.id, isLike: !photo.isLiked) { result in
+        presenter.imagesListService?.changeLike(photoId: photo.id, isLike: !photo.isLiked) { [weak self] result in
+            guard let self = self,
+                  let imagesListService = presenter.imagesListService else { return }
             switch result {
             case .success():
-                self.photos = self.imagesListService.photos
-                cell.setLiked(self.photos[indexPath.row].isLiked)
+                presenter.photos = imagesListService.photos
+                cell.setLiked(presenter.photos[indexPath.row].isLiked)
             case .failure(let error):
                 print(error)
+                self.presenter?.showAlert(vc: self)
             }
             UIBlockingProgressHUD.dismiss()
         }
     }
 }
+
 
