@@ -12,9 +12,7 @@ final class ProfileImageService {
     func fetchProfileImageURL(token: String, username: String, _ completion: @escaping (Result<String, Error>) -> Void) {
         
         assert(Thread.isMainThread)
-        if task != nil {
-            return
-        }
+        if task != nil { return }
         
         var request = URLRequest.makeHTTPRequest(path: "/users/\(username)", httpMethod: "GET")
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")

@@ -15,7 +15,7 @@ final class WebViewViewController: UIViewController {
     
     private lazy var backButton: UIButton = {
         let element = UIButton(type: .system)
-        element.setImage(UIImage(named: "nav_back_button"), for: .normal)
+        element.setImage(Resources.Images.backButtonBlack, for: .normal)
         element.tintColor = .ypBlack
         element.addTarget(self, action: #selector(backButtonAction), for: .touchUpInside)
         return element
@@ -31,7 +31,6 @@ final class WebViewViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .ypWhite
         addViews()
-        addConstraints()
         webView.navigationDelegate = self
         requestToUnsplash()
         
@@ -42,12 +41,6 @@ final class WebViewViewController: UIViewController {
                  guard let self = self else { return }
                  self.updateProgress()
              })
-    }
-    
-    private func addViews() {
-        view.addSubview(webView)
-        view.addSubview(backButton)
-        view.addSubview(progressView)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -79,23 +72,6 @@ final class WebViewViewController: UIViewController {
         webView.load(request)
     }
     
-    private func addConstraints() {
-        webView.snp.makeConstraints { make in
-            make.top.bottom.leading.trailing.equalToSuperview()
-        }
-        
-        backButton.snp.makeConstraints { make in
-            make.width.height.equalTo(24)
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(9)
-            make.leading.equalTo(view.safeAreaLayoutGuide.snp.leading).inset(9)
-        }
-        
-        progressView.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview()
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(40)
-        }
-    }
-
     @objc private func backButtonAction() {
         delegate?.webViewViewControllerDidCancel(self)
     }
@@ -110,7 +86,7 @@ extension WebViewViewController: WKNavigationDelegate {
             decisionHandler(.allow)
         }
     }
-
+    
     private func code(from navigationAction: WKNavigationAction) -> String? {
         if
             let url = navigationAction.request.url,
@@ -122,6 +98,32 @@ extension WebViewViewController: WKNavigationDelegate {
             return codeItem.value
         } else {
             return nil
+        }
+    }
+}
+
+extension WebViewViewController {
+    private func addViews() {
+        view.addSubview(webView)
+        view.addSubview(backButton)
+        view.addSubview(progressView)
+        addConstraints()
+    }
+    
+    private func addConstraints() {
+        webView.snp.makeConstraints { make in
+            make.top.bottom.leading.trailing.equalToSuperview()
+        }
+        
+        backButton.snp.makeConstraints { make in
+            make.width.height.equalTo(24)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(9)
+            make.leading.equalTo(view.safeAreaLayoutGuide.snp.leading).inset(9)
+        }
+        
+        progressView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(40)
         }
     }
 }

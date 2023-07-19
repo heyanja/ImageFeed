@@ -15,4 +15,10 @@ final class UIBlockingProgressHUD {
         window?.isUserInteractionEnabled = true
         ProgressHUD.dismiss()
     }
+    
+    static func setupProgressHUD() {
+        ProgressHUD.animationType = .circleSpinFade
+        ProgressHUD.colorHUD = .white
+        ProgressHUD.colorAnimation = .black
+    }
 }

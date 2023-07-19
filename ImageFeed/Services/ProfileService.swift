@@ -8,17 +8,14 @@ final class ProfileService {
     private var task: URLSessionTask?
     private(set) var profile: Profile?
     private let profileImageService = ProfileImageService.shared
+
     
     func fetchProfile(_ token: String, completion: @escaping (Result<Profile, Error>) -> Void) {
         
         assert(Thread.isMainThread)
-        if task != nil {
-            return
-        }
+        if task != nil { return }
         
-        var request = URLRequest.makeHTTPRequest(path: "/me", httpMethod: "GET")
-        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        
+        let request = makeProfileRequest(token: token)
         let task = urlSession.objectTask(for: request) { [weak self] (result: Result<ProfileResult, Error>) in
             guard let self = self else { return }
             switch result {
@@ -28,13 +25,21 @@ final class ProfileService {
                                        first_name: unsplashProfile.first_name,
                                        last_name: unsplashProfile.last_name,
                                        bio: bio)
-                UIBlockingProgressHUD.dismiss()
                 completion(.success(self.profile!))
+                self.task = nil
             case .failure(let error):
                 completion(.failure(error))
             }
         }
         self.task = task
         task.resume()
+    }
+}
+
+extension ProfileService {
+    func makeProfileRequest(token: String) -> URLRequest {
+        var request = URLRequest.makeHTTPRequest(path: "/me", httpMethod: "GET")
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        return request
     }
 }

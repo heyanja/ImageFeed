@@ -12,7 +12,7 @@ struct ImageSizes: Codable {
     let small: String
     let medium: String
     let large: String
-
+    
     private enum CodingKeys: String, CodingKey {
         case small = "small"
         case medium = "medium"
