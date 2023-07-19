@@ -8,6 +8,7 @@ final class ProfileService {
     private var task: URLSessionTask?
     private(set) var profile: Profile?
     private let profileImageService = ProfileImageService.shared
+
     
     func fetchProfile(_ token: String, completion: @escaping (Result<Profile, Error>) -> Void) {
         

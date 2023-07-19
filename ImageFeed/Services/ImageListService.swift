@@ -8,7 +8,14 @@ final class ImagesListService {
     private let urlSession = URLSession.shared
     private var task: URLSessionTask?
     private var likeTask: URLSessionTask?
-    private let token = OAuth2TokenStorage().token!
+    private let token: String?
+    
+    init() {
+        guard let tokenString = OAuth2TokenStorage().token else {
+            fatalError("Token should not be nil")
+        }
+        self.token = tokenString
+    }
     private(set) var photos: [Photo] = []
     private var lastLoadedPage: Int?
     
@@ -17,7 +24,7 @@ final class ImagesListService {
         assert(Thread.isMainThread)
         if task != nil { return }
         
-        let nextPage = lastLoadedPage == nil ? 1 : lastLoadedPage! + 1
+        let nextPage = lastLoadedPage == nil ? 0 : lastLoadedPage! + 1
         
         let request = makePhotosRequest(page: nextPage)
         let task = urlSession.objectTask(for: request) { [weak self] (result: Result<[PhotoResult], Error>) in
@@ -51,14 +58,13 @@ final class ImagesListService {
     }
     
     func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Void, Error>) -> Void) {
-        
         assert(Thread.isMainThread)
         if likeTask != nil { return }
         
         let method = isLike ? "POST" : "DELETE"
         
         var request = URLRequest.makeHTTPRequest(path: "/photos/\(photoId)/like", httpMethod: method)
-        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        request.setValue("Bearer \(token ?? "")", forHTTPHeaderField: "Authorization")
         
         let task = urlSession.objectTask(for: request) { [weak self] (result: Result<LikeRequest, Error>) in
             guard let self = self else { return }
@@ -92,7 +98,7 @@ extension ImagesListService {
     
     func makePhotosRequest(page: Int) -> URLRequest {
         var request = URLRequest.makeHTTPRequest(path: "/photos/?page=\(page)", httpMethod: "GET")
-        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        request.setValue("Bearer \(token ?? "")", forHTTPHeaderField: "Authorization")
         return request
     }
 }
